@@ -1,11 +1,13 @@
 port module Main exposing (main)
 
 import Browser exposing (Document, UrlRequest(..))
+import Browser.Events exposing (onKeyPress)
 import Browser.Navigation as Nav exposing (Key)
-import Html exposing (Html, button, div, h1, text)
+import Html exposing (Html, button, div, h1, p, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Http
+import Json.Decode as Decode
 import Url exposing (Url)
 
 
@@ -17,6 +19,7 @@ port sessionTokenReceiver : (String -> msg) -> Sub msg
 
 type alias Model =
     { message : String
+    , count : Int
     , key : Key
     , origin : String
     }
@@ -28,11 +31,12 @@ type Msg
     | OnButtonClick
     | GotHelloMsg (Result Http.Error String)
     | GotSessionToken String
+    | KeyPressed
 
 
 init : String -> Url -> Key -> ( Model, Cmd Msg )
 init origin url key =
-    ( Model "Hello" key origin, Cmd.none )
+    ( Model "Hello" 0 key origin, Cmd.none )
 
 
 view : Model -> Document Msg
@@ -42,8 +46,9 @@ view model =
             [ div []
                 [ h1 [ class "text-3xl", class "font-bold", class "underline" ] [ text "Elm playground" ]
                 , button [ onClick OnButtonClick ] [ text "+" ]
-                , div [] [ text model.message ]
+                , div [] [ text <| String.fromInt model.count ]
                 , button [ onClick OnButtonClick ] [ text "-" ]
+                , p [] [ text model.message ]
                 ]
             ]
     in
@@ -74,7 +79,7 @@ update msg model =
             ( model, Cmd.none )
 
         OnButtonClick ->
-            ( model, Cmd.batch [ hello model.origin, requestSesssionToken () ] )
+            ( model, Cmd.batch [ requestSesssionToken () ] )
 
         GotHelloMsg result ->
             case result of
@@ -85,7 +90,18 @@ update msg model =
                     ( { model | message = "Shit happens" }, Cmd.none )
 
         GotSessionToken token ->
-            ( model, Cmd.none )
+            ( { model | message = token }, Cmd.none )
+
+        KeyPressed ->
+            ( { model | count = model.count + 1 }, Cmd.none )
+
+
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    Sub.batch
+        [ sessionTokenReceiver GotSessionToken
+        , onKeyPress (Decode.succeed KeyPressed)
+        ]
 
 
 main : Program String Model Msg
@@ -94,7 +110,7 @@ main =
         { init = init
         , view = view
         , update = update
-        , subscriptions = \_ -> sessionTokenReceiver GotSessionToken
+        , subscriptions = subscriptions
         , onUrlRequest = OnUrlRequested
         , onUrlChange = OnUrlChanged
         }
