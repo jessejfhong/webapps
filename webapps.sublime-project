@@ -4,7 +4,9 @@
 		{
 			"path": ".",
 			"file_exclude_patterns": [
-				"*.sublime-project"
+				"*.sublime-project",
+				"LICENSE-MIT",
+				"*-lock.json"
 			],
 			"folder_exclude_patterns": [
 				"dist",

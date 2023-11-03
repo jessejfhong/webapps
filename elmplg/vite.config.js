@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import {plugin as elm } from 'vite-plugin-elm';
+import { plugin as elm } from 'vite-plugin-elm';
 
 export default defineConfig({
     publicDir: 'www',

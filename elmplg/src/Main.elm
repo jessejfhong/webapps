@@ -2,7 +2,7 @@ port module Main exposing (main)
 
 import Browser exposing (Document, UrlRequest(..))
 import Browser.Navigation as Nav exposing (Key)
-import Html exposing (Html, button, div, text)
+import Html exposing (Html, button, div, h1, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Http
@@ -40,13 +40,14 @@ view model =
     let
         body =
             [ div []
-                [ button [ onClick OnButtonClick ] [ text "+" ]
+                [ h1 [ class "text-3xl", class "font-bold", class "underline" ] [ text "Elm playground" ]
+                , button [ onClick OnButtonClick ] [ text "+" ]
                 , div [] [ text model.message ]
                 , button [ onClick OnButtonClick ] [ text "-" ]
                 ]
             ]
     in
-    { title = "Shopify"
+    { title = "Elm playground"
     , body = body
     }
 
