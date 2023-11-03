@@ -1,0 +1,23 @@
+{
+  "name": "elmplg",
+  "version": "0.1.0",
+  "description": "Elm playground.",
+  "main": "bootstrap.js",
+  "type": "module",
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": [
+    "Elm"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "author": "loopercorp",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^4.4.5",
+    "vite-plugin-elm": "^2.8.0"
+  }
+}
