@@ -85,7 +85,7 @@ view model =
 
         body =
             [ div []
-                [ h2 [ class "text-3xl", class "font-bold", class "underline" ] [ text "Elm playground" ]
+                [ h2 [ class "text-3xl", class "font-bold" ] [ text "Elm playground" ]
                 , button ([ OnButtonClick 1 |> onClick ] ++ buttonClass) [ text "+" ]
                 , div [] [ String.fromInt model.count |> text ]
                 , button ([ OnButtonClick 2 |> onClick ] ++ buttonClass) [ text "-" ]
