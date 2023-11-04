@@ -3,7 +3,7 @@ port module Main exposing (main)
 import Browser exposing (Document, UrlRequest(..))
 import Browser.Events exposing (onKeyPress)
 import Browser.Navigation as Nav exposing (Key)
-import Html exposing (Html, button, div, h1, p, text)
+import Html exposing (Html, button, div, h2, p, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
 import Http
@@ -12,10 +12,10 @@ import Json.Encode as Encode exposing (Value)
 import Url exposing (Url)
 
 
-port requestSesssionToken : () -> Cmd msg
+port requestJsonValue : Int -> Cmd msg
 
 
-port sessionTokenReceiver : (String -> msg) -> Sub msg
+port stringValue : (String -> msg) -> Sub msg
 
 
 port jsonValue : (Value -> msg) -> Sub msg
@@ -64,9 +64,8 @@ type alias Model =
 type Msg
     = OnUrlChanged Url
     | OnUrlRequested UrlRequest
-    | OnButtonClick
-    | GotHelloMsg (Result Http.Error String)
-    | GotSessionToken String
+    | OnButtonClick Int
+    | GotStringValue String
     | KeyPressed
     | GotUser (Result Decode.Error User)
     | GotProduct (Result Decode.Error Product)
@@ -80,12 +79,16 @@ init origin url key =
 view : Model -> Document Msg
 view model =
     let
+        buttonClass =
+            [ "bg-blue-500", "hover:bg-blue-700", "text-white", "font-blod", "py-2", "px-3", "rounded" ]
+                |> List.map class
+
         body =
             [ div []
-                [ h1 [ class "text-3xl", class "font-bold", class "underline" ] [ text "Elm playground" ]
-                , button [ onClick OnButtonClick ] [ text "+" ]
-                , div [] [ text <| String.fromInt model.count ]
-                , button [ onClick OnButtonClick ] [ text "-" ]
+                [ h2 [ class "text-3xl", class "font-bold", class "underline" ] [ text "Elm playground" ]
+                , button ([ OnButtonClick 1 |> onClick ] ++ buttonClass) [ text "+" ]
+                , div [] [ String.fromInt model.count |> text ]
+                , button ([ OnButtonClick 2 |> onClick ] ++ buttonClass) [ text "-" ]
                 , p [] [ text model.message ]
                 ]
             ]
@@ -93,13 +96,6 @@ view model =
     { title = "Elm playground"
     , body = body
     }
-
-
-hello origin =
-    Http.get
-        { url = String.concat [ origin, "/api/Home" ]
-        , expect = Http.expectString GotHelloMsg
-        }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -116,18 +112,10 @@ update msg model =
         OnUrlChanged url ->
             ( model, Cmd.none )
 
-        OnButtonClick ->
-            ( model, Cmd.batch [ requestSesssionToken () ] )
+        OnButtonClick flag ->
+            ( model, Cmd.batch [ requestJsonValue flag ] )
 
-        GotHelloMsg result ->
-            case result of
-                Ok helloMsg ->
-                    ( { model | message = helloMsg }, Cmd.none )
-
-                Err _ ->
-                    ( { model | message = "Shit happens" }, Cmd.none )
-
-        GotSessionToken token ->
+        GotStringValue token ->
             ( { model | message = token }, Cmd.none )
 
         KeyPressed ->
@@ -153,7 +141,7 @@ update msg model =
 subscriptions : Model -> Sub Msg
 subscriptions _ =
     Sub.batch
-        [ sessionTokenReceiver GotSessionToken
+        [ stringValue GotStringValue
         , onKeyPress (Decode.succeed KeyPressed)
         , jsonValue (Decode.decodeValue userDecoder >> GotUser)
         , jsonValue (Decode.decodeValue productDecoder >> GotProduct)
