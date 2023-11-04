@@ -6,12 +6,14 @@
 			"file_exclude_patterns": [
 				"*.sublime-project",
 				"LICENSE-MIT",
-				"*-lock.json"
+				"*-lock.json",
+				"Cargo.lock"
 			],
 			"folder_exclude_patterns": [
 				"dist",
 				"node_modules",
-				"elm-stuff"
+				"elm-stuff",
+				"target"
 			]
 		}
 	]
