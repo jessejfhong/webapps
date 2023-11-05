@@ -1,5 +1,9 @@
 module Monadster exposing (..)
 
+{-
+   https://fsharpforfunandprofit.com/posts/monadster/
+-}
+
 
 type alias Label =
     String

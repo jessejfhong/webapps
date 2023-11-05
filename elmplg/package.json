@@ -14,7 +14,7 @@
     "dev": "vite",
     "build": "vite build"
   },
-  "author": "loopercorp",
+  "author": "jesse",
   "license": "MIT",
   "devDependencies": {
     "autoprefixer": "^10.4.16",
