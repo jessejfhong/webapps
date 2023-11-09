@@ -1,7 +1,7 @@
 module Main exposing (main)
 
 import Browser exposing (Document)
-import Html exposing (div, h2, p, text)
+import Html exposing (div, footer, h2, header, main_, p, text)
 import Html.Attributes exposing (class)
 
 
@@ -23,22 +23,19 @@ init origin =
 view : Model -> Document Msg
 view model =
     let
-        title =
-            model.title
-
         headerView =
-            div []
+            header []
                 [ h2 [ class "text-3xl", class "font-bold" ] [ text "Hello" ] ]
 
         mainView =
-            div []
+            main_ []
                 [ p [] [ text "main section" ] ]
 
         footerView =
-            div []
+            footer []
                 [ div [] [ text "footer secton, hello" ] ]
     in
-    { title = title
+    { title = model.title
     , body =
         [ headerView
         , mainView
