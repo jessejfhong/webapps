@@ -1,0 +1,26 @@
+{
+  "name": "shopify",
+  "version": "0.1.0",
+  "description": "Shopify app written in Elm",
+  "main": "bootstrap.js",
+  "type": "module",
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": [
+    "Elm"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "author": "jesse",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5",
+    "vite": "^4.4.5",
+    "vite-plugin-elm": "^2.8.0"
+  }
+}
