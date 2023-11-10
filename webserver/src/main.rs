@@ -30,7 +30,7 @@ async fn prepare_database(db_url: &str) {
 
 async fn status() -> impl Responder {
     HttpResponse::Ok()
-        .content_type(ContentType::html())
+        .content_type(ContentType::plaintext())
         .body("Simple API server is running.")
 }
 

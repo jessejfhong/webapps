@@ -1,0 +1,9 @@
+.env
+Cargo.lock
+Dockerfile
+*.db
+*.db-shm
+*.db-wal
+
+target/
+tests/
