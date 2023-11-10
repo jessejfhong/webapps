@@ -5,3 +5,6 @@ target
 
 *.sublime-workspace
 Cargo.lock
+*.db
+*.db-shm
+*.db-wal

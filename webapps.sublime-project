@@ -7,7 +7,9 @@
 				"*.sublime-project",
 				"LICENSE-MIT",
 				"*-lock.json",
-				"Cargo.lock"
+				"Cargo.lock",
+				"*.db-shm",
+				"*.db-wal"
 			],
 			"folder_exclude_patterns": [
 				"dist",

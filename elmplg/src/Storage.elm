@@ -7,6 +7,11 @@ module Storage exposing (..)
 import Time exposing (POSIX)
 
 
+utcNow =
+    Time.now
+        |> Task.anThen (Task.succeed Time.posixToMillis)
+
+
 type alias Task =
     { id : Int
     , description : String
